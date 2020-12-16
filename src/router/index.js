@@ -4,7 +4,8 @@ import VueRouter from 'vue-router'
 // import Home from '../components/Home'
 // import About from '../components/About'
 // import Me from '../components/Me'
-import Login from '../views/Login'
+// import Login from '../views/Login'
+import Home from '../views/Home'
 // import Index from '../components/Index'
 // import UserList from '../components/UserList'
 
@@ -15,11 +16,11 @@ Vue.use(VueRouter)
 const routes = [
   {
     path:'',
-    redirect:'/login'//默认
+    redirect:'/home'//默认
   },
   {
-    path: '/login',//路径
-    component: Login//模板
+    path: '/home',//路径
+    component: Home//模板
   }
 ]
 

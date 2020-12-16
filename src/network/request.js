@@ -3,7 +3,7 @@ import axios from 'axios'
 export function request(config) {
   // 1.创建axios的实例
   const instance = axios.create({
-    baseURL: 'http://121.196.25.116:82',
+    baseURL: '47.115.182.152:9080/index.php/',
     timeout: 5000
   })
 
@@ -12,7 +12,7 @@ export function request(config) {
   instance.interceptors.request.use(config => {
     return config
   }, err => {
-    // console.log(err);
+    console.log(err);
   })
 
   // 2.2.响应拦截
@@ -22,6 +22,6 @@ export function request(config) {
     console.log(err);
   })
 
-  // 3.发送真正的网络请求
+  // 3.发送真正的网络请求  本身返回promise
   return instance(config)
 }

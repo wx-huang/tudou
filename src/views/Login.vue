@@ -50,7 +50,7 @@
         this.$refs.ruleForm2.validate((valid) => {
           if (valid) {
             this.logining = true;
-            this.$axios.post('index/Login/ajaxtest', { //post 请求 不能用路由 用全路径
+            this.$axios.post('http://tp.com/index.php/index/Login/ajaxtest', { //post 请求 不能用路由 用全路径
                 username: this.ruleForm2.username, // 参数 firstName
                 password: this.ruleForm2.password // 参数 lastName
               })
