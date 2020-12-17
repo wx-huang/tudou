@@ -1,16 +1,17 @@
-// module.exports = {  
-//   devServer: {
-//     proxy: {
-//       // 配置跨域
-//       '/api': {
-//         target: 'http://47.115.182.152:9080/index.php/',//跨域接口的地址
-//         changeOrigin: true,
-//         pathRewrite: {
-//           '^/api': ''
-//         }
-//       }
-//     }
-//   }
+module.exports = {  
+  devServer: {
+    proxy: {
+      // 配置跨域
+      '/api': {
+        target: 'http://121.196.25.116:82/index.php/',//跨域接口的地址
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': ''
+        },
+        secure:false
+      }
+    }
+  }
   // configureWebpack: {
   //   resolve: {
   //     // 配置文件的别名

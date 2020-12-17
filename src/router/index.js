@@ -2,6 +2,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 // import Login from '../views/Login'
+import App from '../App'
 import Home from '../views/Home'
 import Power from '../views/Power'
 
@@ -12,7 +13,11 @@ Vue.use(VueRouter)
 const routes = [
   {
     path:'',
-    redirect:'/home'//默认
+    redirect:'/App'//默认
+  },
+  {
+    path: '/App',//路径
+    component: App//模板
   },
   {
     path: '/home',//路径
