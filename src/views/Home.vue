@@ -12,8 +12,13 @@
               @close="handleClose"
               background-color="#545c64"
               text-color="#fff"
-              active-text-color="#ffd04b">
-              <el-submenu index="1">
+              active-text-color="#ffd04b"
+              router>
+                <el-menu-item index="2">
+                  <i class="el-icon-s-grid"></i>
+                  <span slot="title">首页</span>
+                </el-menu-item>
+                <el-submenu index="1">
                 <!-- 权限管理 -->
                 <template slot="title">
                   <i class="el-icon-setting"></i>
@@ -34,7 +39,7 @@
                 </el-submenu>
               </el-submenu>
               <!-- 员工管理 -->
-              <el-menu-item index="2">
+              <el-menu-item index="/power">
                 <i class="el-icon-s-check"></i>
                 <span slot="title">员工管理</span>
               </el-menu-item>
@@ -96,7 +101,7 @@
 
         <!-- 中 -->
         <el-main>
-          
+          <router-view />
         </el-main>
 
         <!-- 下 -->
@@ -112,7 +117,7 @@
 import {request} from '../network/request.js'
 
 export default {   
-  name: 'home',
+  name: 'Home',
   methods: {
     handleOpen(key, keyPath) {
       console.log(key, keyPath);

@@ -4,12 +4,13 @@
     <router-link to="/about/200" tag="button" replace>关于</router-link>
     <router-link to="/me" tag="button" replace>我的账号</router-link> -->
     <!-- 占位置 -->
-    <router-view></router-view>
+    <router-view/>
   </div>
 </template>
 
 <script>  
 
+// import Home from './views/Home'
 
 export default {
   name: 'App'

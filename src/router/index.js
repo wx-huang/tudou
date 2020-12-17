@@ -1,13 +1,9 @@
 //1 引入 配置路由相关信息
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import Home from '../components/Home'
-// import About from '../components/About'
-// import Me from '../components/Me'
 // import Login from '../views/Login'
 import Home from '../views/Home'
-// import Index from '../components/Index'
-// import UserList from '../components/UserList'
+import Power from '../views/Power'
 
 //2 安装插件 应用路由
 Vue.use(VueRouter)
@@ -21,6 +17,10 @@ const routes = [
   {
     path: '/home',//路径
     component: Home//模板
+  },
+  {
+    path: '/power',//路径
+    component: Power//模板
   }
 ]
 
