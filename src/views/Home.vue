@@ -182,6 +182,10 @@ export default {
     text-align: center;
     line-height: 160px;
   }
+
+  .el-col-12{
+    width: 100%;
+  }
   
   body > .el-container {
     margin-bottom: 40px;
