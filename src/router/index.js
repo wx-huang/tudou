@@ -4,7 +4,7 @@ import VueRouter from 'vue-router'
 // import Login from '../views/Login'
 import App from '../App'
 import Home from '../views/Home'
-import Power from '../views/Power'
+
 
 //2 安装插件 应用路由
 Vue.use(VueRouter)
@@ -21,12 +21,15 @@ const routes = [
   },
   {
     path: '/home',//路径
-    component: Home//模板
+    component: Home,//模板
+     children: [
+        {
+          path: '/power',
+          name: 'power',
+          component: () => import('../views/Power')
+        }]
   },
-  {
-    path: '/power',//路径
-    component: Power//模板
-  }
+  
 ]
 
 const router = new VueRouter({
