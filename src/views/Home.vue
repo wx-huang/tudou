@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="home1">
     <div class="home">
       <el-container>
         <!-- 侧边栏 -->
@@ -91,7 +91,7 @@
         <el-container>
 
           <!-- 上 -->
-          <el-header>欢迎登录后台管理系统<button @click="functionname">123</button></el-header>
+          <el-header>欢迎登录后台管理系统</el-header>
 
           <!-- 中 -->
           <el-main>
@@ -147,23 +147,23 @@
     margin: 0;
   }
 
-  .home {
+  .home1{
     height: 100%;
   }
 
-  .el-header {
+  .home{
+    height: 100%;
+  }
+
+  .el-container{
+    height: 100%;
+  }  
+
+  .el-header,.el-footer {
     background-color: #B3C0D1;
     color: #333;
     text-align: center;
     line-height: 60px;
-  }
-
-  .el-footer {
-    background-color: #B3C0D1;
-    color: #333;
-    text-align: center;
-    height: 44px;
-    line-height: 44px;
   }
 
   .el-aside {
@@ -191,10 +191,6 @@
 
   .el-container:nth-child(7) .el-aside {
     line-height: 320px;
-  }
-
-  .el-container {
-    height: 100%;
-  }
+  }  
 
 </style>

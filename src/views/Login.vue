@@ -1,81 +1,106 @@
 <template>
-  <div style="width: 20%; height: 300px;margin: auto;vertical-align:middle;">
-    <div class="login-container">
-      <el-form :model="ruleForm2" :rules="rules2" status-icon ref="ruleForm2" label-position="left" label-width="0px"
-        class="demo-ruleForm login-page">
-        <h3 class="title">系统登录</h3>
-        <el-form-item prop="username">
-          <el-input type="text" v-model="ruleForm2.username" auto-complete="off" placeholder="用户名"></el-input>
-        </el-form-item>
-        <el-form-item prop="password">
-          <el-input type="password" v-model="ruleForm2.password" auto-complete="off" placeholder="密码"></el-input>
-        </el-form-item>
-        <el-checkbox v-model="checked" class="rememberme">记住密码</el-checkbox>
-        <el-form-item style="width:100%;">
-          <el-button type="primary" style="width:100%;" @click="handleSubmit" :loading="logining">登录</el-button>
-        </el-form-item>
-      </el-form>
-    </div>
+  <div>
+    <el-form ref="loginForm" :model="form" :rules="rules" label-width="80px" class="login-box">
+      <h3 class="login-title">欢迎登录</h3>
+      <el-form-item label="账号" prop="staff_acc">
+        <el-input type="text" placeholder="请输入账号" v-model="form.staff_acc" />
+      </el-form-item>
+      <el-form-item label="密码" prop="staff_pwd">
+        <el-input type="password" placeholder="请输入密码" v-model="form.staff_pwd" />
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" v-on:click="onSubmit('loginForm')">登录</el-button>
+        <!-- <el-button type="primary" v-on:click="onSubmit('loginForm')">重置</el-button> -->
+      </el-form-item>
+    </el-form>
+
+    <el-dialog title="温馨提示" :visible.sync="dialogVisible" width="30%">
+      <span>请输入账号和密码</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
-
 <script>
+  import {
+    request
+  } from '../network/request.js'
+
   export default {
-    name: 'AdminLogin',
+    name: 'Content',
     data() {
       return {
-        logining: false,
-        ruleForm2: {
-          username: '',
-          password: '',
+        form: {
+          staff_acc: '',
+          staff_pwd: ''
         },
-        info: '',
-        rules2: {
-          username: [{
+
+        // 表单验证，需要在 el-form-item 元素中增加 prop 属性
+        rules: {
+          staff_acc: [{
             required: true,
-            message: '请输入账号',
+            message: '账号不可为空',
             trigger: 'blur'
           }],
-          password: [{
+          staff_pwd: [{
             required: true,
-            message: '请输入密码',
+            message: '密码不可为空',
             trigger: 'blur'
           }]
         },
-        checked: false
+
+        // 对话框显示和隐藏
+        dialogVisible: false
       }
     },
     methods: {
-      handleSubmit(event) {
-        this.$refs.ruleForm2.validate((valid) => {
+      onSubmit(formName) {
+        // 为表单绑定验证功能
+        let url = 'home/Login/userLogin'
+        this.$refs[formName].validate((valid) => {
           if (valid) {
-            this.logining = true;
-            this.$axios.post('http://tp.com/index.php/index/Login/ajaxtest', { //post 请求 不能用路由 用全路径
-                username: this.ruleForm2.username, // 参数 firstName
-                password: this.ruleForm2.password // 参数 lastName
-              })
-              .then(response => { //登录成功
-                console.log(response.data);
-                // this.usernam
-                // e = response.data[0].username//回传的数据
-                this.$router.push('/index');
-              })
-              .catch(error => {
-                console.log(error);
-              });
-
-            this.logining = false;
-            // sessionStorage.setItem('user', this.ruleForm2.username);
-            // this.$router.push({path: '/'});
-
+            // 使用 vue-router 路由到指定页面，该方式称之为编程式导航
+            //   this.$router.push('/main/' + this.form.username)
+            request({
+              url: 'admin/Login/login',
+              methods: 'post',
+              data: {
+                staff_acc: this.form.staff_acc,
+                staff_pwd: this.form.staff_pwd
+              }
+            }).then(res => {
+              console.log(res.data);
+              this.$router.push('/home');
+            }).catch(err => {
+              console.log(err);
+            })
           } else {
-            console.log('error submit!');
-            return false;
+            this.dialogVisible = true
+            return false
           }
         })
       }
-    },
-
-  };
+    }
+  }
 
 </script>
+<style>
+  .login-box {
+    border: 1px solid #DCDFE6;
+    width: 350px;
+    margin: 180px auto;
+    padding: 35px 35px 15px 35px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    box-shadow: 0 0 25px #909399;
+  }
+
+  .login-title {
+    text-align: center;
+    margin: 0 auto 40px auto;
+    color: #303133;
+  }
+
+</style>
