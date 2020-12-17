@@ -1,5 +1,26 @@
 <template>
+<<<<<<< HEAD
   <div class="home1">
+=======
+<<<<<<< HEAD
+  <div class="home">
+    <el-container>
+      <!-- 侧边栏 -->
+      <el-aside width="200px">
+        <el-row class="tac">
+          <el-col :span="12" style="width:100%">
+            <el-menu
+              default-active="2"
+              class="el-menu-vertical-demo"
+              @open="handleOpen"
+              @close="handleClose"
+              background-color="#545c64"
+              text-color="#fff"
+              active-text-color="#ffd04b"
+              router>
+=======
+  <div>
+>>>>>>> 32b80bde0eb74fd8c708df7ce956b14c2e9d4fd4
     <div class="home">
       <el-container>
         <!-- 侧边栏 -->
@@ -8,6 +29,7 @@
             <el-col :span="12" style="width: 100%;">
               <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
                 background-color="#545c64" text-color="#fff" active-text-color="#ffd04b" router>
+>>>>>>> 19337faf1464066a76335cf7e18a1e6309810ef8
                 <el-menu-item index="2">
                   <i class="el-icon-s-grid"></i>
                   <span slot="title">首页</span>
@@ -93,10 +115,10 @@
           <!-- 上 -->
           <el-header>欢迎登录后台管理系统</el-header>
 
-          <!-- 中 -->
-          <el-main>
-            <router-view />
-          </el-main>
+        <!-- 中 -->
+        <el-main>
+          <router-view />
+        </el-main>
 
           <!-- 下 -->
           <el-footer>版权2020.12</el-footer>
