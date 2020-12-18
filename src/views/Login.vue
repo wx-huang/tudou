@@ -63,15 +63,19 @@
             // 使用 vue-router 路由到指定页面，该方式称之为编程式导航
             //   this.$router.push('/main/' + this.form.username)
             request({
-              url: 'admin/Login/login',
-              methods: 'post',
+              url: 'admin/login',
+              method: 'post',
               data: {
                 staff_acc: this.form.staff_acc,
                 staff_pwd: this.form.staff_pwd
               }
-            }).then(res => {
-              console.log(res.data);
-              this.$router.push('/home');
+            }).then(res => {//响应成功判断
+              if(res.data.code == '1001') {
+                alert('登录成功');
+                this.$router.push('/home');
+              } else if (res.data.code == '1002') {
+                alert('登录失败，账号或密码错误');
+              }              
             }).catch(err => {
               console.log(err);
             })

@@ -4,6 +4,7 @@ module.exports = {
       // 配置跨域
       '/api': {
         target: 'http://121.196.25.116:82/index.php/',//跨域接口的地址
+        ws: false,
         changeOrigin: true,
         pathRewrite: {
           '^/api': ''

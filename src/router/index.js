@@ -20,8 +20,16 @@ const routes = [
     component: () => import('../views/Home'),
     children: [
       {
+        path: '/index',
+        component: () => import('../views/Index')
+      },
+      {
         path: '/power',
         component: () => import('../views/Power')
+      },
+      {
+        path: '/staff',
+        component: () => import('../views/Staff')
       }
     ]
   }

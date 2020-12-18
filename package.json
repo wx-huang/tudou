@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "fix-memory-limit": "cross-env LIMIT=2048 increase-memory-limit"
   },
   "dependencies": {
     "axios": "^0.21.0",
@@ -18,6 +19,8 @@
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.5.0",
     "@vue/cli-service": "^4.5.0",
+    "cross-env": "^5.2.1",
+    "increase-memory-limit": "^1.0.7",
     "sass-loader": "^10.1.0",
     "vue-template-compiler": "^2.6.11"
   }
