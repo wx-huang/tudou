@@ -25,6 +25,11 @@
       <!-- 页码 -->
       <el-pagination background layout="prev, pager, next" :total="1000"></el-pagination>
     </div>
+    <div class="disPower_box">
+      <el-tree :data="data" show-checkbox node-key="id" default-expand-all :expand-on-click-node="false"
+        :render-content="renderContent">
+      </el-tree>
+    </div>
 
 
   </div>
@@ -78,6 +83,24 @@
     /* border: 1px solid black; */
     /* position: absolute; */
     margin-top: 50px;
+    display: inline-block;
+  }
+
+  .disPower_box {
+    width: 500px;
+    height: 399px;
+    border: 1px solid black;
+    display: inline-block;
+    margin: 1px 0 0 48px;
+  }
+
+  .custom-tree-node {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    padding-right: 8px;
   }
 
   .el-table .warning-row {
