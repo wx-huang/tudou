@@ -8,70 +8,85 @@
     <!-- 权限表 -->
     <div class="power_box">
       <!-- 权限表 -->
-      <el-table :data="tableData" style="width: 100%" :row-class-name="tableRowClassName">
-        <!-- id -->
-        <el-table-column prop="date" label="ID" width="100"></el-table-column>
-        <!-- 角色名 -->
-        <el-table-column prop="name" label="角色名" width="100"></el-table-column>
-        <!-- 操作 -->
-        <el-table-column label="操作" min-width="100">
-          <template slot-scope="scope">
-            <el-button type="text" @click="checkDetail(scope.row.phone)">权限管理</el-button>
-            <el-button type="info" @click="modifyUser(scope.row.phone)">修改</el-button>
-            <el-button type="info" @click="deleteUser(scope.row.phone)">删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
+      <el-table 
+        style="width: 100%" 
+        :data="tableData.slice((pagenum-1)*pagesize,pagenum*pagesize)">
+          <!-- id -->
+          <el-table-column prop="roleId" label="ID" width="100"></el-table-column>
+          <!-- 角色名 -->
+          <el-table-column prop="roleName" label="角色名" width="100"></el-table-column>
+          <!-- 操作 -->
+          <el-table-column label="操作" min-width="100">
+            <template slot-scope="scope">
+              <el-button type="text" @click="checkDetail(scope.row.phone)">权限管理</el-button>
+              <el-button type="info" @click="modifyUser(scope.row.phone)">修改</el-button>
+              <el-button type="info" @click="deleteUser(scope.row.phone)">删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+
       <!-- 页码 -->
-      <el-pagination background layout="prev, pager, next" :total="1000"></el-pagination>
-    </div>
-    <div class="disPower_box">
-      <el-tree :data="data" show-checkbox node-key="id" default-expand-all :expand-on-click-node="false"
-        :render-content="renderContent">
-      </el-tree>
-    </div>
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="pagenum"
+        :page-sizes="[3, 5, 10, 15]"
+        :page-size="pagesize"  
+        :total="tableData.length" 
+        layout="total, sizes, prev, pager, next, jumper"   
+      ></el-pagination>
 
-
+    </div>
   </div>
 
 </template>
 
 <script>
+
+  import { request } from '../network/request.js';
+
   export default {
     methods: {
-      tableRowClassName({
-        row,
-        rowIndex
-      }) {
-        if (rowIndex === 1) {
-          return 'warning-row';
-        } else if (rowIndex === 3) {
-          return 'success-row';
-        }
-        return '';
+      // 请求权限表
+      roleList() {
+        request({
+          url: 'admin/Power/roleList',
+          method: 'post'        
+        }).then(res => {
+          // console.log(res.data);
+          this.tableData = res.data;
+          // this.total = (res.data).length;
+        }).catch(err => {
+          console.log(err);
+        })
+      },
+
+      // 分页 的事件
+      // 当每页条数改变时 val是页码
+      handleSizeChange(val) {
+        this.pagesize = val;
+        // console.log(`每页 ${val} 条`);
+      },
+      // 选择下一页或者跳到第几页
+      handleCurrentChange(val) {
+        this.pagenum = val;
+        // console.log(`当前页: ${val}`);
       }
     },
     data() {
-      return {
-        tableData: [{
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄',
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄',
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }]
-      }
-    }
+      return {        
+        // 表格数据
+        tableData: [],
+
+        // 分页数据
+        pagenum: 1, // 当前页数
+        pagesize: 3, // 每页显示条目个数
+      };
+    },
+    mounted() {
+      // 挂载的时候，请求权限表
+      this.roleList();
+    },
   }
 
 </script>
