@@ -4,77 +4,39 @@
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>用户管理</el-breadcrumb-item>
-    </el-breadcrumb>
+    </el-breadcrumb>    
+    <!-- 卡片区域 -->
+    <el-card class="box-card"> 
+      <!-- 搜索区域 -->
+      <el-row>
+        <el-col :span='7'>
+          <el-input placeholder="请输入内容" class="userSel">
+            <el-button slot="append" icon="el-icon-search"></el-button>
+          </el-input>
+        </el-col>
+      </el-row>
+      <!-- 用户列表组件 -->
+      <Userlist></Userlist>
+    </el-card>
   </div>
-
-  <!-- 用户表 -->
-  <div class="user_box">
-    <!-- <el-button type="success" plain @click="addRole">添加</el-button> -->
-    <!-- 权限表 -->
-    <el-table 
-      style="width: 100%" 
-      :data="tableData">
-        <!-- id -->
-        <el-table-column prop="roleId" label="ID" width="100"></el-table-column>
-        <!-- 角色名 -->
-        <el-table-column prop="roleName" label="角色名" width="100"></el-table-column>
-        <!-- 操作 -->
-        <el-table-column label="操作" min-width="100">            
-          <template slot-scope="scope">
-            <el-button type="text" @click="checkDetail(scope.row.phone)">权限管理</el-button>
-            <el-button type="info" @click="showEditDialog(scope.row.roleId)">修改</el-button>
-            <el-button type="info" @click="removeRoleById(scope.row.roleId)">删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
+  
 
 
 </template>
 <script>
 
-import { request } from '../network/request.js';
+import Userlist from '../components/content/UserList'
 
 export default {  
   data () {
-    return {
-      tableData: [],
-    }
+    return {}
   },
-  methods:{
-    // 请求用户user表
-    userList() {
-      request({
-        url: 'admin/User/userList',
-        method: 'post'
-      }).then(res => {
-        console.log(res.data);
-        if(res.data.code == '2011') {
-          this.tableData = res.data.data;
-          this.$message.success('查询表数据成功');
-        } else {
-          this.$message.info('查询表数据失败');
-        }
-      }).catch(err => {
-        console.log(err);
-      });
-    }
-    
-  },
-  mounted() {
-    this.userList();
+  components: {
+    Userlist
   }
 }
 </script>
 <style>
-  .user_box {
-    width: 50%;
-    height: 50%;
-    /* border: 1px solid black; */
-    /* position: absolute; */
-    margin-top: 50px;
-    display: inline-block;
-  }
-
   .custom-tree-node {
     flex: 1;
     display: flex;
@@ -84,7 +46,7 @@ export default {
     padding-right: 8px;
   }
 
-  .el-table .warning-row {
+  /* .el-table .warning-row {
     background: oldlace;
   }
 
@@ -94,5 +56,20 @@ export default {
 
   .el-table__header-wrapper {
     line-height: 20px;
+  } */
+
+  .el-card {
+    margin-top: 15px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15) !important;
   }
+
+  .el-main {
+    line-height: 0px !important;
+  }
+
+  .el-row {
+    height: 58px !important;
+  }
+
+
 </style>

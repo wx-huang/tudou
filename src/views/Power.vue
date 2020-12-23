@@ -6,6 +6,10 @@
       <el-breadcrumb-item>权限管理</el-breadcrumb-item>
     </el-breadcrumb>
 
+    <el-card class="box-card">
+      
+    </el-card>
+
     <!-- 权限表 -->
     <div class="power_box">
       <el-button type="success" plain @click="addRole">添加</el-button>
