@@ -71,10 +71,12 @@
               }
             }).then(res => {//响应成功判断
               if(res.data.code == '1001') {
-                alert('登录成功');
-                this.$router.push('/home');
+                this.$message.success('登录成功,正在跳转页面');
+                setTimeout( () => {
+                  this.$router.push('/home');
+                },2000) 
               } else if (res.data.code == '1002') {
-                alert('登录失败，账号或密码错误');
+                this.$message.success('登录失败，账号或密码错误');
               }              
             }).catch(err => {
               console.log(err);

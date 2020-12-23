@@ -25,20 +25,21 @@
                   <span slot="title">员工管理</span>
                 </el-menu-item>
                 <!-- 用户管理 -->
-                <el-menu-item index="3">
+                <el-menu-item index="/user">
                   <i class="el-icon-s-custom"></i>
                   <span slot="title">用户管理</span>
                 </el-menu-item>
                 <!-- 车辆信息管理 -->
-                <el-menu-item index="4">
-                  <i class="el-icon-goods"></i>
-                  <span slot="title">车辆信息管理</span>
-                </el-menu-item>
-                <!-- 商品管理 -->
-                <el-menu-item index="5">
-                  <i class="el-icon-menu"></i>
-                  <span slot="title">商品管理</span>
-                </el-menu-item>
+                <el-submenu index="1">
+                  <template slot="title">
+                    <i class="el-icon-goods"></i>
+                    <span>车辆信息管理</span>
+                  </template>
+                  <el-menu-item-group>
+                    <el-menu-item index="1-1">车辆管理</el-menu-item>
+                    <el-menu-item index="1-2">车辆上传</el-menu-item>
+                  </el-menu-item-group>
+                </el-submenu>
                 <!-- 订单管理 -->
                 <el-menu-item index="6">
                   <i class="el-icon-s-claim"></i>
