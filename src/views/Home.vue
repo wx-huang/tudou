@@ -36,8 +36,8 @@
                     <span>车辆信息管理</span>
                   </template>
                   <el-menu-item-group>
-                    <el-menu-item index="1-1">车辆管理</el-menu-item>
-                    <el-menu-item index="1-2">车辆上传</el-menu-item>
+                    <el-menu-item index="/carInfo">车辆管理</el-menu-item>
+                    <el-menu-item index="/carUpload">车辆上传</el-menu-item>
                   </el-menu-item-group>
                 </el-submenu>
                 <!-- 订单管理 -->
