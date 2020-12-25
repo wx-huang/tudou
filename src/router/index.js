@@ -42,6 +42,10 @@ const routes = [
       {
         path: '/carUpload',
         component: () => import('../views/CarUpload')
+      },
+      {
+        path: '/customer',
+        component: () => import('../views/Customer')
       }
     ]
   }

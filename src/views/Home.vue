@@ -46,7 +46,7 @@
                   <span slot="title">订单管理</span>
                 </el-menu-item>
                 <!-- 客服 -->
-                <el-menu-item index="7">
+                <el-menu-item index="/customer">
                   <i class="el-icon-phone-outline"></i>
                   <span slot="title">客服</span>
                 </el-menu-item>
