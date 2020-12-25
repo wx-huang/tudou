@@ -6,7 +6,15 @@
       <el-breadcrumb-item>用户管理</el-breadcrumb-item>
     </el-breadcrumb>    
     <!-- 卡片区域 -->
-    <el-card class="box-card">
+    <el-card class="box-card"> 
+      <!-- 搜索区域 -->
+      <el-row>
+        <el-col :span='7'>
+          <el-input placeholder="请输入内容" class="userSel">
+            <el-button slot="append" icon="el-icon-search"></el-button>
+          </el-input>
+        </el-col>
+      </el-row>
       <!-- 用户列表组件 -->
       <Userlist></Userlist>
     </el-card>

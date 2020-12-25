@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './App'
+import XLSX from 'xlsx' // 导入表格
 import router from './router'//1 导入  如果导入的是文件夹，会自动找index
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
@@ -7,6 +8,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI);
+Vue.use(XLSX);
 // Vue.prototype.$axios = axios;//原型导包 定义全局变量
 // axios.defaults.baseURL = '/api'
 
