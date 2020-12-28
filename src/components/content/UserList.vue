@@ -2,6 +2,7 @@
   <div>
     <!-- 用户表 -->
     <el-table 
+    class="elTable"
     fit 
     highlight-current-row 
     :data="tableData.slice((pagenum-1)*pagesize,pagenum*pagesize)" 
@@ -24,6 +25,7 @@
     </el-table>
     <!-- 页码 -->
     <el-pagination 
+    background
     @size-change="handleSizeChange" 
     @current-change="handleCurrentChange" 
     :current-page="pagenum"
@@ -123,7 +125,7 @@
     line-height: 20px;
   }
 
-  .el-table {
+  .elTable {
     max-width: 48%;
   }
 

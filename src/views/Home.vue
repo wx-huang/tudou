@@ -51,7 +51,7 @@
                   <span slot="title">客服</span>
                 </el-menu-item>
                 <!-- 报表统计 -->
-                <el-menu-item index="8">
+                <el-menu-item index="/report">
                   <i class="el-icon-s-data"></i>
                   <span slot="title">报表统计</span>
                 </el-menu-item>
