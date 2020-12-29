@@ -85,46 +85,115 @@ export default {
       // 报表数据
       // 1 柱状图
       caogao: {
+          color: '#2f89cf',//柱子颜色
           title: {
-              x: 'left',
-              text: ''
+            text: '每月用户注册人数',
+            left: 'center',
+            top: 20,
+            textStyle: {
+                color: '#C23531'
+            }
           },
           legend: {
             data:['人数']
           },
           tooltip: {},
-          xAxis: {
-              data: [4,5,6,7,8]
+          grid: {//修改图标大小
+            // left: '0%',
+            // top: '10px',
+            // right: '0%',
+            // bottom: '4%',
+            // containLable: true
+          },
+          xAxis: {//x轴
+              data: [4,5,6,7,8],
+              axisLabel: {//x轴样式
+                // color: 'rgba(225,225,225,225)',
+                fontSize: '15'
+              },
+              // axisLine: {//x轴线
+              //   show: false
+              // }
           },
           yAxis: {},
           series: [{
               name: '人数',
               type: 'bar',
+              barWidth: '30%',
+              itemStyle: {
+                barBorderRadius: 5
+              },
               data: [4,5,6,7,8]
           }]
       },
       // 2 饼图
       pieReport: {
+        color: [          
+          '#C23531',
+          '#D48265',
+          '#2F4554',
+          '#61A0A8',
+          '#91C7AE',          
+        ],
+        title: {
+          text: '每月用户注册人数',
+          left: 'center',
+          top: 20,
+          textStyle: {
+              color: '#66B1FF'
+          }
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: '{a} <br/>{b}: {c} ({d}%)'
+        },
+        legend: {
+            // orient: 'vertical',
+            bottom: '2%',
+            data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎'],
+            textStyle: {
+              fontSize: "10"
+            }
+        },
+        lable: {
+          show: false
+        },
         series : [{
-          name: '访问来源',
-          type: 'pie',    // 设置图表类型为饼图
-          radius: '55%',  // 饼图的半径，外半径为可视区尺寸（容器高宽中较小一项）的 55% 长度。
-          data:[          // 数据数组，name 为数据项名称，value 为数据项值
-              {value:235, name:'视频广告'},
-              {value:274, name:'联盟广告'},
-              {value:310, name:'邮件营销'},
-              {value:335, name:'直接访问'},
-              {value:400, name:'搜索引擎'}
-          ]
-      }]
-    } 
-  }
+            name: '用户注册人数(人)',
+            type: 'pie',
+            radius: ['40%', '60%'],//内外圆的半径
+            avoidLabelOverlap: false,
+            label: {
+                show: false,
+                position: 'center'
+            },
+            emphasis: {
+                label: {
+                    show: true,
+                    fontSize: '30',
+                    fontWeight: 'bold'
+                }
+            },
+            labelLine: {
+                show: false
+            },
+            data: [
+                {value: 335, name: '直接访问'},
+                {value: 310, name: '邮件营销'},
+                {value: 234, name: '联盟广告'},
+                {value: 135, name: '视频广告'},
+                {value: 1548, name: '搜索引擎'}
+            ]
+        }]
+      } 
+    }
   },
   methods:{
     seeReport() {//报表渲染
       let echarts = require('echarts');
       // 基于准备好的dom，初始化echarts实例
       let myChart = echarts.init(document.getElementById('main'));
+      myChart.setOption(this.pieReport);      
       // 绘制图表
       if(this.selForm.tableType == 2) {//如果选择柱状图
         let caogaoData = this.caogao;
@@ -135,9 +204,23 @@ export default {
         myChart.setOption(pieReportData);
         console.log("数据传输回来，选择饼图2");
       }      
+      // 图标自适应
+      window.addEventListener("resize",() => {
+        myChart.resize();
+      });
     },
     selectSure() {//点击确认信息 查看报表      
       let selFormData = this.selForm;//选择的全部数据
+      if(!selFormData.selOption) {
+        this.$message.warning('请选择需求');
+        return;
+      } else if(!selFormData.selDate) {
+        this.$message.warning('请选择时间');
+        return;
+      } else if(!selFormData.tableType) {
+        this.$message.warning('请选择类型');
+        return;
+      }
       if(selFormData.selOption == 1) {
         this.caogao.title.text = '用户注册人数详情表';
       }
@@ -155,7 +238,8 @@ export default {
       }).then(res => {
         // console.log(res.data.data);
         if(res.data.code == '3001') {
-          let allArr = res.data.data;//后端传回的数据          
+          let allArr = res.data.data;//后端传回的数据 
+          console.log(allArr + "===============================");         
           if(allArr.length !== 0) {
             if(this.selForm.tableType == 2) {//如果选择柱状图
               let userNumArr = [];//表格水平行数据
@@ -167,9 +251,39 @@ export default {
               // 赋值
               this.caogao.xAxis.data = monthTimeArr;
               this.caogao.series[0].data = userNumArr;
+              if(selFormData.selOption == 1) {
+                this.caogao.title.text = '用户注册人数详情表';
+                this.caogao.series[0].name = '人数(人)';
+              } else if(selFormData.selOption == 2) {//订单量
+                this.caogao.title.text = '订单量详情表';
+                this.caogao.series[0].name = '订单量(个)';
+              } else if(selFormData.selOption == 3) {//订单额
+                this.caogao.title.text = '交易成交额详情表';
+                this.caogao.series[0].name = '订单总额(元)';                
+              }
+              console.log(this.caogao.xAxis.data);
+              console.log(this.caogao.series[0].data);
               console.log("数据传输回来，选择柱状图1");
             } else if(this.selForm.tableType == 1) {//如果选择饼图
-              this.pieReport.series[0].data = allArr;
+              let pieReportArr1 = [];//饼图数据              
+              let pieReportArr2 = [];//饼图底下指示数据              
+              allArr.forEach((item) => {
+                let pieReportObj = {value:'',name:''};
+                pieReportObj.value = item.value;
+                pieReportObj.name = item.name + '月';
+                pieReportArr1.push(pieReportObj);
+                pieReportArr2.push(item.name + '月');
+              });
+              this.pieReport.series[0].data = pieReportArr1;
+              this.pieReport.legend.data = pieReportArr2;
+              if(selFormData.selOption == 2) {//订单量
+                this.pieReport.series[0].name = '订单量(个)';
+                this.pieReport.title.text = '每月交易订单量';
+              } else if(selFormData.selOption == 3) {//订单额
+                this.pieReport.series[0].name = '订单总额(元)'
+                this.pieReport.title.text = '每月交易成交额';
+              }
+              console.log(this.pieReport.series[0].data);
               console.log('数据传输回来，选择饼图1');
               console.log(allArr);
             }            
@@ -185,7 +299,7 @@ export default {
     }
   },
   mounted() {
-    // this.seeReport();
+    this.seeReport();
   }
 
 }

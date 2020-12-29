@@ -71,9 +71,19 @@
               }
             }).then(res => {//响应成功判断
               if(res.data.code == '1001') {
+                // 将账号存cookie
+                // let cookieAcc = this.$getCookie('staffAcc');
+                // console.log(cookieAcc);
+
+                // 将行号存储session
+                sessionStorage.setItem('staffAcc',this.form.staff_acc);
+                // 将cookie存储Vuex
+                this.$store.commit('setStaffAcc',this.form.staff_acc);
+                console.log(this.$store.state.staffAcc);
+                // 提示登录成功
                 this.$message.success('登录成功,正在跳转页面');
                 setTimeout( () => {
-                  this.$router.push('/home');
+                  this.$router.push("/home?staffAcc=" + this.form.staff_acc);
                 },2000) 
               } else if (res.data.code == '1002') {
                 this.$message.success('登录失败，账号或密码错误');
@@ -87,7 +97,10 @@
           }
         })
       }
-    }
+    },
+    mounted() {
+      
+    },
   }
 
 </script>
