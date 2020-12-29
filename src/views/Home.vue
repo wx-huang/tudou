@@ -20,38 +20,37 @@
                   </template>
                 </el-menu-item>
                 <!-- 员工管理 -->
-                <el-menu-item index="/staff">
+                <el-menu-item index="/user">
                   <i class="el-icon-s-check"></i>
                   <span slot="title">员工管理</span>
                 </el-menu-item>
                 <!-- 用户管理 -->
-                <el-menu-item index="/user">
+                <el-menu-item index="3">
                   <i class="el-icon-s-custom"></i>
                   <span slot="title">用户管理</span>
                 </el-menu-item>
                 <!-- 车辆信息管理 -->
-                <el-submenu index="1">
-                  <template slot="title">
-                    <i class="el-icon-goods"></i>
-                    <span>车辆信息管理</span>
-                  </template>
-                  <el-menu-item-group>
-                    <el-menu-item index="/carInfo">车辆管理</el-menu-item>
-                    <el-menu-item index="/carUpload">车辆上传</el-menu-item>
-                  </el-menu-item-group>
-                </el-submenu>
+                <el-menu-item index="/carInfo">
+                  <i class="el-icon-goods"></i>
+                  <span slot="title">车辆信息管理</span>
+                </el-menu-item>
+                <!-- 商品管理 -->
+                <el-menu-item index="5">
+                  <i class="el-icon-menu"></i>
+                  <span slot="title">商品管理</span>
+                </el-menu-item>
                 <!-- 订单管理 -->
                 <el-menu-item index="6">
                   <i class="el-icon-s-claim"></i>
                   <span slot="title">订单管理</span>
                 </el-menu-item>
                 <!-- 客服 -->
-                <el-menu-item index="/customer">
+                <el-menu-item index="7">
                   <i class="el-icon-phone-outline"></i>
                   <span slot="title">客服</span>
                 </el-menu-item>
                 <!-- 报表统计 -->
-                <el-menu-item index="/report">
+                <el-menu-item index="8">
                   <i class="el-icon-s-data"></i>
                   <span slot="title">报表统计</span>
                 </el-menu-item>
@@ -118,12 +117,8 @@
         }).catch((err) => {
           console.log(err)
         });
-      },
-      
-    },
-    mounted() {
-      
-    },
+      }
+    }
   }
 
 </script>
@@ -152,29 +147,29 @@
   }  
 
   .el-header {
-    background-color: #B3C0D1;
-    color: #333;
+    background-color: #545C64;
+    color: #B49770;
     text-align: center;
     line-height: 60px;
   }
 
   .el-footer {
-    background-color: #B3C0D1;
-    color: #333;
+    background-color: #545C64;
+    color:#B49770;
     text-align: center;
     line-height: 40px !important;
     height: 40px !important;
   }
 
   .el-aside {
-    background-color: rgb(84, 92, 100);
-    color: #333;
+    background-color: #545C64;
+    color: #B49770;
     text-align: center;
     line-height: 200px;
   }
 
   .el-main {
-    background-color: #E9EEF3;
+    background-color: white;
     color: #333;
     text-align: center;
     line-height: 160px;
