@@ -4,7 +4,6 @@
         
         <el-form-item label="品牌" prop="brandName">
           <el-select
-            class="elSelect"
             v-model="value"
             clearable
             filterable
@@ -24,7 +23,7 @@
           </el-select>
         </el-form-item>
         <el-form-item  label="车系" prop="systemName">
-          <el-select class="elSelect" v-model="systemId" :filter-method="getSystemName" placeholder="请选择">
+          <el-select v-model="systemId" :filter-method="getSystemName" placeholder="请选择">
             <el-option
               v-for="item in systemNames"
               :key="item.systemId"
@@ -54,13 +53,29 @@
         <el-form-item label="公里数" prop="carKilometres">
           <el-input v-model="carForm.carKilometres"></el-input>
         </el-form-item>
-        <el-form-item label="车辆参数" prop="carBasicParam">
+        <el-form-item label="车辆基本参数" prop="carBasicParam">
           <el-upload class="upload-demo" action="" :on-change="handleChange" :on-exceed="handleExceed" :on-remove="handleRemove" :file-list="fileListUpload" :limit="1" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" :auto-upload="false">
             <el-button size="small" type="primary">点击上传</el-button>
             <div slot="tip" class="el-upload__tip">只能上传xlsx文 件</div>
           </el-upload>
         </el-form-item>
-        
+         <el-form-item label="车辆基本参数" prop="engineParam">
+          <el-upload class="upload-demo" action="" :on-change="handleChange" :on-exceed="handleExceed" :on-remove="handleRemove" :file-list="fileListUpload" :limit="1" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" :auto-upload="false">
+            <el-button size="small" type="primary">点击上传</el-button>
+            <div slot="tip" class="el-upload__tip">只能上传xlsx文 件</div>
+          </el-upload>
+        </el-form-item>
+         <el-form-item label="车辆基本参数" prop="chassisBrake">
+          <el-upload class="upload-demo" action="" :on-change="handleChange" :on-exceed="handleExceed" :on-remove="handleRemove" :file-list="fileListUpload" :limit="1" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" :auto-upload="false">
+            <el-button size="small" type="primary">点击上传</el-button>
+            <div slot="tip" class="el-upload__tip">只能上传xlsx文 件</div>
+          </el-upload>
+        </el-form-item>
+
+
+
+
+
         <el-form-item>
             <el-button type="primary" @click="submitForm('carForm')">立即创建</el-button>
             <el-button @click="resetForm('carForm')">重置</el-button>
@@ -115,8 +130,8 @@ import { request } from '../network/request';
         states: [],
         systemNames: [],
         systemId: '',
-        fileListUpload:[],//表格
-        formData:new FormData()
+        fileListUpload:[]//表格
+
 
 
       };
@@ -172,7 +187,7 @@ import { request } from '../network/request';
             brandId:event
           }
         }).then((res)=>{
-          // console.log(res)
+          console.log(res)
            this.systemNames = res.data.data.map(item => {
             return { systemName: `${item.systemName}`,systemId: `${item.systemId}`}
           });
@@ -215,15 +230,13 @@ import { request } from '../network/request';
         var reader = new FileReader();
         //if (!FileReader.prototype.readAsBinaryString) {
         FileReader.prototype.readAsBinaryString = function(f) {
-          var binary = "";
-          var rABS = false; //是否将文件读取为二进制字符串
-          var pt = this;
-          var wb; //读取完成的数据
-          var outdata;
-          var reader = new FileReader();
-          reader.onload = function(e) {
-            var fm = new FormData();  //这个很重要
-            
+            var binary = "";
+            var rABS = false; //是否将文件读取为二进制字符串
+            var pt = this;
+            var wb; //读取完成的数据
+            var outdata;
+            var reader = new FileReader();
+            reader.onload = function(e) {
             var bytes = new Uint8Array(reader.result);
             var length = bytes.byteLength;
             for(var i = 0; i < length; i++) {
@@ -245,28 +258,25 @@ import { request } from '../network/request';
                 this.da.map(v => {
                     let obj = {}
                     // obj.code = v['id']
-                    obj.staffAcc = v['manufacturer']
-                    console.log(v['manufacturer'])
+                    obj.staffAcc = v['name']
+                    console.log(v['name'])
                     arr.push(obj)
                 })
-                // console.log(arr)
-                // formData.append('xlsx',arr)fm.append('.xlsx',file);
-                fm.append('xlsx',arr);
-                
+                console.log(arr)
                 // return arr
-              //   request({
-              //   url: 'admin/carInfo',
-              //   method: 'post',
-              //   data:{carInfo:arr}
-              // }).then(res => {//响应成功判断
-              //         console.log(res)    
-              // }).catch(err => {
+                request({
+                url: 'admin/carInfo',
+                method: 'post',
+                data:{carInfo:arr}
+              }).then(res => {//响应成功判断
+                      console.log(res)    
+              }).catch(err => {
               
-              // })
-          }
-          // console.log(outdata)
-          reader.readAsArrayBuffer(f);
-          // console.log(outdata)
+              })
+            }
+            // console.log(outdata)
+            reader.readAsArrayBuffer(f);
+            // console.log(outdata)
         }
         
         if(rABS) {
@@ -274,14 +284,7 @@ import { request } from '../network/request';
         } else {
             reader.readAsBinaryString(f);
         }
-        // return fm
       },
-      submitForm(){
-        fm.forEach((value, key) => {
-            console.log("key %s: value %s", key, value);
-        })
-      }
-
       
         // if (query !== '') {
         //   this.loading = true;
@@ -308,7 +311,7 @@ import { request } from '../network/request';
   }
 </script>
 <style>
-.elSelect {
+.el-select {
     width: 400px;
 }
 </style>

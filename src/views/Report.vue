@@ -299,7 +299,7 @@ export default {
     }
   },
   mounted() {
-    this.seeReport();
+    // this.seeReport();
   }
 
 }
