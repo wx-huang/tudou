@@ -5,7 +5,7 @@
     </div>
     <el-table
     :data="staffTable.slice((currentPage-1)*pagesize,currentPage*pagesize)"
-   
+    class="staffInfo"
     border
     align="center"
     :current-page.sync="currentPage"
@@ -21,20 +21,27 @@
       width="100">
     </el-table-column>
     <el-table-column
+      prop="roleName"
+      label="角色"
+      width="120">
+    </el-table-column>
+    <el-table-column
       prop="staffRegTime"
       label="注册时间"
       width="240">
     </el-table-column>
     <el-table-column
       prop="staffStatus"
-      label="状态"
+      label="是否启用"
       width="180">
       <template slot-scope="scope">
         <el-switch
-       
-        v-model="scope.row.qStatus"
-        active-color="red"
-        inactive-color="#dadde5">
+        @change="changeStatus($event,scope.$index, scope.row)"
+        v-model="scope.row.staffStatus"
+        active-color="#13ce66"
+        inactive-color="#ff4949"
+        active-value="open" 
+        inactive-value="close" >
         </el-switch>
       </template>
     </el-table-column>
@@ -66,18 +73,47 @@
             </el-form-item>
             <el-form-item label="角色" prop="role">
               <!-- <el-input v-model="addStaffForm.role"></el-input> -->
-              <el-select class="roleSelect" v-model="roleId" :filter-method="getRole" placeholder="请选择角色">
+              <el-select class="roleSelect" v-model="roleId" :filter-method="getRole" @change="getRoleId" placeholder="请选择角色">
                 <el-option
                   v-for="item in role"
                   :key="item.roleId"
                   :label="item.roleName"
-                  :value="item">
+                  :value="item.roleId">
                 </el-option>
               </el-select>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="submitAddStaffForm('addStaffForm')">添加</el-button>
                 <el-button @click="resetForm('addStaffForm')">重置</el-button>
+            </el-form-item>
+        </el-form>
+      </el-dialog>
+    </div>
+    <!-- 修改用户信息 -->
+    <div>
+      <el-dialog title="修改用户信息" :visible.sync="updateStaffFormVisible">
+          <el-form :model="updateStaffForm" :rules="updateStaffRules" ref="updateStaffForm" label-width="100px" class="demo-ruleForm">
+            <el-input v-model="updateStaffForm.staffId" type="hidden"></el-input>
+            <el-form-item label="账号" prop="staffAcc">
+              <el-input v-model="updateStaffForm.staffAcc"></el-input>
+            </el-form-item>
+            <el-form-item label="密码" prop="staffPwd">
+              <el-input v-model="updateStaffForm.staffPwd"></el-input>
+            </el-form-item>
+            <el-form-item label="角色" prop="role">
+              <!-- <el-input v-model="addStaffForm.role"></el-input> -->
+              <el-select class="roleSelect" v-model="roleId" :filter-method="getRole" @change="getRoleId" placeholder="请选择角色">
+                <el-option
+                  v-for="item in role"
+                  :key="item.roleId"
+                  :label="item.roleName"
+                  :value="item.roleId">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="submitUpdateStaffForm('updateStaffForm')">确定</el-button>
+                <el-button @click="resetForm('updateStaffForm')">重置</el-button>
             </el-form-item>
         </el-form>
       </el-dialog>
@@ -90,6 +126,7 @@ export default {
   name: "",
   data () {
    return {
+      // 分页
       stripe: true,
       staffTable: [],
       currentPage: 1,
@@ -105,18 +142,37 @@ export default {
       staffRules:{
         staffAcc:[
           {require:true,message:'请输入账号',trigger:'blur'},
-          {min:5,max:8,message:'长度在5到8个字符',trigger:'blur'}
+          {min:4,max:8,message:'长度在4到8个字符',trigger:'blur'}
         ],
         staffPwd:[
           {require:true,message:'请输入密码',trigger:'blur'},
-          {min:5,max:8,message:'长度在5到8个字符',trigger:'blur'}
+          {min:4,max:8,message:'长度在4到8个字符',trigger:'blur'}
         ]
       },
-      addStaffFormVisible:false
+      addStaffFormVisible:false,
+      // 修改用户信息
+      updateStaffFormVisible:false,
+      updateStaffForm:{
+        staffId:'',
+        staffAcc:'',
+        staffPwd:''
+      },
+      updateStaffRules:{
+        staffAcc:[
+          {require:true,message:'请输入账号',trigger:'blur'},
+          {min:4,max:8,message:'长度在4到8个字符',trigger:'blur'}
+        ],
+        staffPwd:[
+          {require:true,message:'请输入密码',trigger:'blur'},
+          {min:4,max:8,message:'长度在4到8个字符',trigger:'blur'}
+        ]
+      },
 
+      
    }
   },
   methods:{
+    // 添加员工
     getRole(){},
     handleAdd(){
       this.addStaffFormVisible=true
@@ -129,9 +185,13 @@ export default {
         })
       })
     },
+    getRoleId(value){
+      this.roleId=value
+      console.log(this.roleId)
+    },
     submitAddStaffForm(addStaffForm){
-      
-      console.log(addStaffForm)
+      console.log(this.roleId)
+      // console.log(addStaffForm)
       this.$refs[addStaffForm].validate((valid)=>{
         if(valid){
           request({
@@ -139,14 +199,15 @@ export default {
             method:'post',
             data:{
               staffAcc:this.addStaffForm.staffAcc,
-              staffPwd:this.addStaffForm.staffPwd
+              staffPwd:this.addStaffForm.staffPwd,
+              roleId:this.roleId
             }
           }).then(res=>{
             console.log(res.data.code)
             if(res.data.code==1003){
               this.$message.success('添加成功')
               setTimeout(()=>this.addStaffFormVisible=false,3000)
-              
+              this.roleId=''
             }else if(res.data.code=1004){
               this.$message.error('添加失败')
             }
@@ -154,21 +215,106 @@ export default {
         }
       })
     },
+    // 修改状态
+    changeStatus(e,index,row){
+      // console.log(row)
+      request({
+        url:'admin/Staff/updateStatus',
+        method:'post',
+        data:{
+          staffId:row.staffId,
+          staffStatus:row.staffStatus
+        }
+      }).then((res)=>{
+        if(res.data.code==1007){
+          // this.$message.success('')
+          // setTimeout(()=>this.addStaffFormVisible=false,3000)
+          
+        }else if(res.data.code=1008){
+          // this.$message.error('修改失败')
+        }
+      })
+    },
+
+
     handleSizeChange (val) {
       this.pagesize = val
     },
     handleCurrentChange (val) {
       this.currentPage = val
     },
+    // 编辑
     handleEdit (index, row) {
       console.log(index, row)
       // 点击编辑
-      this.dialogFormVisible = true // 显示弹框
-      this.ruleForm = Object.assign({}, row) // editForm是Dialog弹框的data
-    //   console.log(this.ruleForm)
+      this.updateStaffFormVisible = true // 显示弹框
+      this.updateStaffForm = Object.assign({}, row) // editForm是Dialog弹框的data
+      request({
+        url:'admin/Staff/selRole'
+      }).then((res)=>{
+        console.log(res)
+        this.role=res.data.data.map(item=>{
+          return { roleName:`${item.roleName}`,roleId:`${item.roleId}`}
+        })
+      })
     },
+    submitUpdateStaffForm(updateStaffForm){
+      // this.getRoleId(value)
+      console.log(this.roleId)
+      this.$refs[updateStaffForm].validate((valid)=>{
+        if(valid){
+          request({
+            url:'admin/Staff/updateStaff',
+            method:'post',
+            data:{
+              staffId:this.updateStaffForm.staffId,
+              staffAcc:this.updateStaffForm.staffAcc,
+              staffPwd:this.updateStaffForm.staffPwd,
+              roleId:this.roleId
+            }
+          }).then((res)=>{
+                console.log(res.data)
+                if(res.data.code==1009){
+                  this.$message.success('修改成功')
+                  setTimeout(()=>this.updateStaffFormVisible=false,3000)
+                  this.roleId=''
+                  this.getajaxdata()
+                }else if(res.data.code=1010){
+                  this.$message.error('修改失败')
+                }
+          }).catch((err)=>{
+            console.log(err)
+          })
+        }
+      })
+    },
+
+
     handleDelete (index, row) {
       console.log(index, row)
+      this.$confirm(
+        '是否删除该员工?',
+        {
+          confirmButtonText:'确定',
+          canceButtonText:'取消',
+          type:'warning'
+        }
+        ).then(()=>{
+          console.log(row.staffId)
+          request({
+            url:'admin/Staff/delStaff',
+            method:'post',
+            data:{staffId:row.staffId}
+          }).then((res)=>{
+            if(res.data.code==1011){
+              this.$message.success('删除成功')
+              this.getajaxdata()
+            }else{
+              this.$message.error('删除失败')
+            }
+          })
+        }).catch(res=>res)
+      
     },
     getajaxdata () {
       request({
@@ -188,7 +334,7 @@ export default {
 </script>
 <style>
 .staffTable{
-  width:775px;
+  width:878px;
   margin: 0 auto;
 }
 .el-table td, .el-table th{
@@ -213,7 +359,7 @@ export default {
     word-break: break-all;
     line-height: 15px;
 }
-.tableInfo{
+.staffTable{
   border-collapse: collapse;
   margin: 0 auto;
   text-align: center;
@@ -221,9 +367,12 @@ export default {
   color: rgb(10, 10, 10);
   /* border: 1px solid black;      */
 }
-.tableInfo td{
+.staffTable td{
     width: 194px;
     height: 34px;
+}
+.staffInfo{
+  width:100%;
 }
 .addStaff{
   line-height: 0;
