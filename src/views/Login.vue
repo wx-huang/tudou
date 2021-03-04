@@ -20,6 +20,11 @@
         <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
       </span>
     </el-dialog>
+
+    <span>123</span>
+    <span>456</span>
+    <span>789</span>
+
   </div>
 </template>
 <script>

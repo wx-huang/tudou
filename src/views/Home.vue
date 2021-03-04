@@ -79,15 +79,14 @@
         <el-container>
 
           <!-- 上 -->
-          <el-header>欢迎登录后台管理系统</el-header>
+          <!-- <el-header>欢迎登录后台管理系统</el-header> -->
 
         <!-- 中 -->
         <el-main>
           <router-view />
         </el-main>
 
-          <!-- 下 -->
-          <el-footer>版权2020.12</el-footer>
+          
 
         </el-container>
       </el-container>
